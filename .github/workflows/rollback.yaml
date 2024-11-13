@@ -65,4 +65,6 @@ jobs:
           $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db&connectTimeout=30000&socketTimeout=30000" \
           --username=mohith \
           --password=mohith \
-          liquibase --changelog-file=changelog.yml --logLevel=debug rollbackCount 1
+          --changelog-file=changelog.yml \
+          --logLevel=debug \
+          rollbackCount 1
