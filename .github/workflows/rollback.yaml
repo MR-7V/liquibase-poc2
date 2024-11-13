@@ -1,22 +1,12 @@
-name: Liquibase Rollback
+name: Liquibase MySQL Setup
 
 on:
     workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  liquibase-rollback:
+  liquibase-update:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: test_db
-          MYSQL_DATABASE: liquibase_test_db
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,7 +23,7 @@ jobs:
            tar -xzvf liquibase.tar.gz
            sudo mkdir -p /opt/liquibase
            sudo mv * /opt/liquibase/
-
+         
       - name: Download MySQL JDBC Driver
         run: |
             # Clean up any existing file
@@ -59,15 +49,20 @@ jobs:
       - name: Check if Liquibase is available
         run: $LIQUIBASE_HOME/liquibase --version
 
-      # Rollback the last change
-      - name: Rollback the last change
-
+      - name: Run Liquibase rollbackcount
         run: |
+          
+          sudo find / -name "changelog.yml"
+          echo $LIQUIBASE_HOME
+          ls -l $LIQUIBASE_HOME
+          echo $LIQUIBASE_HOME
+          ls -l
+          pwd
+          git clone https://github.com/MR-7V/liquibase-poc2.git
+          cd liquibase-poc2
+          git checkout main
           cat $LIQUIBASE_HOME/changelog.yml
           $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db&connectTimeout=30000&socketTimeout=30000" \
           --username=mohith \
           --password=mohith \
-          --changelog-file=changelog.yml rollbackCount 1
-
-      - name: Check if rollback was successful
-        run: $LIQUIBASE_HOME/liquibase --changeLogFile=changelog.xml status --verbose
+          --changelog-file=changelog.yml rollbackcount 1 --logLevel=debug
