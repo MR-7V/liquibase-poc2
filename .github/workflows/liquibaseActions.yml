@@ -9,23 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
-
-    - name: List directory contents
-      run: |
-        echo "Current directory contents:"
-        ls -R
-
-    - name: Copy JAR file to Liquibase Docker container and check status
-      id: start_container
-      run: |
-        docker run --name liquibase_container -d liquibase/liquibase:latest sleep infinity
-        docker cp ./jarfile/mysql-connector-j-9.1.0.jar liquibase_container:/liquibase/lib/mysql-connector-j-9.1.0.jar
-        docker exec liquibase_container liquibase \
-            --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" \
-            --changeLogFile=changelog.yml \
-            --username=root \
-            --password=test_db \
-            status --verbose
-        docker stop liquibase_container
-        docker rm liquibase_container
+    - uses: liquibase/liquibase-github-action@v2
+      with:
+        operation: 'update'
+        classpath: 'jarfile/mysql-connector-j-9.1.0.jar'
+        changeLogFile: 'changelog.yml'
+        username: root
+        password: test_db
+        url: 'jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db'
         
