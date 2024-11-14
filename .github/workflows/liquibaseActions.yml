@@ -22,7 +22,7 @@ jobs:
         docker cp ./jarfile/mysql-connector-j-9.1.0.jar liquibase_container:/liquibase/lib/mysql-connector-j-9.1.0.jar
         docker exec liquibase_container liquibase \
             --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" \
-            --changeLogFile=./changelog.yml \
+            --changeLogFile=changelog.yml \
             --username=root \
             --password=test_db \
             status --verbose
