@@ -10,30 +10,15 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
 
-# note the below assumes that a host path or volume is mounted into the container at ./Docker (or action will fail) !!!
-    # Step 3: Run 'Liquibase status' with volume mount for JDBC driver
-    - name: Run 'Liquibase status' in Liquibase Docker Container with JDBC
+    - name: Copy JAR file to Liquibase Docker container and check status
+      id: start_container
       run: |
-        docker run --rm \
-          -v "${GITHUB_WORKSPACE}:/liquibase-poc2" \
-          -v "${GITHUB_WORKSPACE}/mysql-connector-java.jar:/liquibase-poc2/jarfile/mysql-connector-j-9.1.0.jar" \
-          -e LIQUIBASE_CLASSPATH="liquibase-poc2/jarfile/mysql-connector-j-9.1.0.jar" \
-          liquibase/liquibase:latest \
+        docker create --name liquibase_container liquibase/liquibase:latest
+        docker cp ./liquibase-poc2/jarfile/mysql-connector-j-9.1.0.jar liquibase_container:/liquibase/lib
+        docker start liquibase_container
+        docker exec liquibase_container liquibase \
           --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" \
           --changeLogFile=./liquibase-poc2/changeLog.yml \
-          --username="root" \
-          --password="test_db" \
+          --username=root \
+          --password=test_db \
           status --verbose
-
-    - name: Run 'Liquibase update' in Liquibase Docker Container with JDBC
-      run: |
-        docker run --rm \
-          -v "${GITHUB_WORKSPACE}:/liquibase-poc2" \
-          -v "${GITHUB_WORKSPACE}/mysql-connector-java.jar:/liquibase-poc2/jarfile/mysql-connector-j-9.1.0.jar" \
-          -e LIQUIBASE_CLASSPATH="liquibase-poc2/jarfile/mysql-connector-j-9.1.0.jar" \
-          liquibase/liquibase:latest \
-          --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" \
-          --changeLogFile=./liquibase-poc2/changeLog.yml \
-          --username="root" \
-          --password="test_db" \
-          update --verbose
