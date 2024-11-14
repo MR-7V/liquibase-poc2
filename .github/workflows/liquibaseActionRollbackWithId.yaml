@@ -1,4 +1,4 @@
-name: Liquibase_Rollback_With_ID
+name: Liquibase Rollback With ID
 
 on:
   workflow_dispatch:

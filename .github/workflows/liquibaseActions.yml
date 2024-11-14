@@ -1,4 +1,4 @@
-name: Liquibase_Update
+name: Liquibase Update
 
 on:
   workflow_dispatch:
@@ -12,4 +12,5 @@ jobs:
       with:
         changeLogFile: 'changelog.yml'
         url: 'jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db'
+        classpath: 'jarfile/mysql-connector-j-9.1.0.jar'
         

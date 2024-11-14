@@ -1,4 +1,4 @@
-name: Liquibase MySQL Setup
+name: Old Liquibase Update
 
 on:
     workflow_dispatch:  # Allows manual triggering
