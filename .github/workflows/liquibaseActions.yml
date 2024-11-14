@@ -8,12 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
-    - uses: liquibase/liquibase-github-action@v2
+    - uses: liquibase-github-actions/update@v4.30.0
       with:
-        operation: 'update'
-        classpath: 'jarfile/mysql-connector-j-9.1.0.jar'
         changeLogFile: 'changelog.yml'
-        username: root
-        password: test_db
         url: 'jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db'
         

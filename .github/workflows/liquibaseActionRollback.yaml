@@ -2,6 +2,11 @@ name: Liquibase_Rollback
 
 on:
   workflow_dispatch:
+    inputs: 
+      count:
+          description: "Number of recent changesets to roll back"
+          required: true
+          default: ""
 
 jobs:
   RollBackCount_1:
@@ -10,9 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - uses: liquibase-github-actions/rollback-count@v4.30.0
       with:
-        count: "1"
-        classpath: 'jarfile/mysql-connector-j-9.1.0.jar'
+        count: "${{ github.event.inputs.count }}"
         changeLogFile: 'changelog.yml'
-        username: root
-        password: test_db
         url: 'jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db'
