@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Liquibase_RollBackCount_1:
+  RollBackCount_1:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
