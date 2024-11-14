@@ -10,6 +10,11 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
 
+    - name: List directory contents
+      run: |
+        echo "Current directory contents:"
+        ls -R
+
     - name: Copy JAR file to Liquibase Docker container and check status
       id: start_container
       run: |
