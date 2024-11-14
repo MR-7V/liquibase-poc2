@@ -18,7 +18,6 @@ jobs:
     - name: Copy JAR file to Liquibase Docker container and check status
       id: start_container
       run: |
-        docker create --name liquibase_container liquibase/liquibase:latest
         docker run --name liquibase_container -d liquibase/liquibase:latest sleep infinity
         docker cp ./jarfile/mysql-connector-j-9.1.0.jar liquibase_container:/liquibase/lib/mysql-connector-j-9.1.0.jar
         docker exec liquibase_container liquibase \
