@@ -23,5 +23,6 @@ jobs:
         changesetAuthor: "${{ github.event.inputs.author }}"
         classpath: 'jarfile/mysql-connector-j-9.1.0.jar'
         changeLogFile: 'changelog.yml'
+        changesetPath: 'test_db'
         url: 'jdbc:mysql://34.121.133.153:3306/liquibase_test_db?user=root&password=test_db'
 
