@@ -9,7 +9,7 @@ on:
           default: ""
 
 jobs:
-  RollBackCount_1:
+  RollBackByCount:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
