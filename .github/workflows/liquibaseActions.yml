@@ -21,7 +21,7 @@ jobs:
         docker create --name liquibase_container liquibase/liquibase:latest
         docker cp ./jarfile/mysql-connector-j-9.1.0.jar liquibase_container:/liquibase/lib
         docker start liquibase_container
-        docker exec liquibase_container '/bin/ls -R'
+        docker exec liquibase_container /bin/ls -R
         docker exec liquibase_container liquibase \
           --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" \
           --changeLogFile=./changeLog.yml \
