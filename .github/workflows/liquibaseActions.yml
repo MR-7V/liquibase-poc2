@@ -1,0 +1,27 @@
+name: Liquibase_Actions_Update
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  LBJobDockerCLI:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v2
+# note the below assumes that a host path or volume is mounted into the container at ./Docker (or action will fail) !!!
+    - name: Run 'Liquibase status' in a Docker Container	    
+      uses: docker://liquibase/liquibase:latest
+      with:
+        args: --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" --changeLogFile=./liquibase-poc2/changeLog.yml --username=root --password=test_db status --verbose
+    - name: Run 'Liquibase update' in a Docker Container
+      uses: docker://liquibase/liquibase:latest
+      with:
+        args: --url="jdbc:mysql://34.121.133.153:3306/liquibase_test_db" --changeLogFile=./liquibase-poc2/changeLog.yml --username=root --password=test_db --logLevel=debug update
+
+        
+        
