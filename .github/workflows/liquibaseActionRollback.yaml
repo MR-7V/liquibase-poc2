@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs: 
       count:
-          description: "Number of recent changesets to roll back"
+          description: "Number of recent changesets to rollback"
           required: true
           default: ""
 
